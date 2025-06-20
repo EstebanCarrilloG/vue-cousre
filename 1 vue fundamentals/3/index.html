@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Inline styles -->
+
+      <div style="background-color: red; color: white">Hello world</div>
+      <!-- 
+        * v-bind:* directive. 
+
+       - cv-bind can be omited is not neccesary. 
+       - :class or :styles ,":"  is required refering to v-bind 
+
+        -->
+
+      <div v-bind:style="{backgroundColor: 'red', color: 'white'}">
+        Hello world
+      </div>
+      <div v-bind:style="{'background-color': 'red', 'color': 'white'}">
+        Hello world
+      </div>
+      <!-- Dynamic styles  -->
+
+      <div v-bind:style="{'background-color': background, 'color': 'white'}">
+        Hello world
+      </div>
+
+      <!-- Class binding -->
+
+      <div
+        class="padding-medium"
+        :class="{'bg-grey': hasGreenBackground(), 'bg-green': true, h1: isMainTitle()}"
+      >
+        Hello world
+      </div>
+      <br />
+      <div
+        class="padding-medium"
+        :class="[isMainTitle() ? mainTitle : '', borderClass]"
+      >
+        Hello world
+      </div>
+    </div>
+    <script>
+      const { createApp, ref, reactive } = Vue;
+      const background = "blue";
+      createApp({
+        setup() {
+          const borderClass = {
+            border: true,
+          };
+          const someStyle = {
+            style1: {
+              fontSize: "40px",
+              backgroundColor: "lightgreen",
+              margin: "20px",
+              border: "1px solid black",
+            },
+          };
+          const mainTitle = {
+            h1: true,
+            "bg-grey": true,
+          };
+          function isMainTitle() {
+            return true;
+          }
+          function hasGreenBackground() {
+            return true;
+          }
+          return {
+            background,
+            hasGreenBackground,
+            isMainTitle,
+            mainTitle,
+            borderClass,
+          };
+        },
+      }).mount("#app");
+    </script>
+    <style>
+      .h1 {
+        font-size: 30px;
+        color: green;
+      }
+      .h2 {
+        font-size: 40px;
+        color: chocolate;
+      }
+      .bg-grey {
+        background-color: grey;
+      }
+      .bg-green {
+        background-color: lightgreen;
+      }
+      .padding-medium {
+        padding: 20px;
+      }
+      .border {
+        border: 3px solid black;
+      }
+    </style>
+  </body>
+</html>
