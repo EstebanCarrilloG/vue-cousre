@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{message}}</h1>
+      <p>Lucky number list: {{luckyNumbers}}</p>
+      <p>
+        Employe information: {{employe.name}} is {{employe.age}} years old. His
+        salary is ${{employe.salary}}
+      </p>
+      <!-- v-show directive to render only if condition is true. Control visibility -->
+      <p v-show="employe.hasCorporateCard">
+        Spending limit for card (show):{{employe.spendingLimit}}
+      </p>
+      <!-- v-if directive to render only if condition is true. Component completely removed from DOM -->
+      <p v-if="employe.hasCorporateCard">
+        Spending limit for card (if):{{employe.spendingLimit}}
+      </p>
+      <p v-else-if="employe.salary > 4000">
+        Employe is elegible for a corporate card
+      </p>
+      <p v-else>Employe is not elegible for a corporate card</p>
+      <h2>Lucky numbers:</h2>
+      <!-- v-for directive to loop through an array -->
+      <span v-for="(luckyNumber, index) in luckyNumbers">
+        <span>{{luckyNumber}}</span><br />
+      </span>
+      <hr />
+      <h2>Projects in pipeline:</h2>
+      <ul>
+        <li v-for="(project, index) in employe.projects" :key="project.project">
+          <span
+            >{{index + 1}} - "{{project.project}}" timeline is -
+            {{project.timeline}}</span
+          >
+        </li>
+      </ul>
+      <hr />
+      <ul>
+        <li v-for="(value, key) in employe">
+          <span>{{key}}: {{value}}</span>
+        </li>
+      </ul>
+    </div>
+    <script>
+      const { createApp, ref, reactive } = Vue;
+      createApp({
+        setup() {
+          const message = "Hello vue";
+          const luckyNumbers = [2, 5, 7];
+          //reactive() -  to work with objects
+          //ref() -  employe.value.[key]
+          const employe = reactive({
+            name: "John",
+            age: 30,
+            salary: 5000,
+            hasCorporateCard: false,
+            spendingLimit: 10000,
+            yearsWithCompany: 5,
+            projects: [
+              { project: "Green A", timeline: "2 years" },
+              { project: "Blue H", timeline: "9 months" },
+              { project: "Pink G", timeline: "3 years" },
+            ], // array of objects
+          });
+
+          return {
+            message,
+            luckyNumbers,
+            employe,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
