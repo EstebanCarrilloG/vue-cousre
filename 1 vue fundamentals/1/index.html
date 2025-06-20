@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{titleToUpperCase()}}</h1>
+      <span v-html="renderHtml()"></span
+      ><!-- v-html directive to render html code-->
+      <p>Lucky number: {{luckyNumber}}</p>
+      <!-- v-once to render only once -->
+      <p v-once>Render once Lucky number: {{luckyNumber}}</p>
+      <!-- v-bind:href to open a link -->
+      <a v-bind:href="siteUrl">My website</a>
+      <p>Lucky number list: {{luckyNumbers}}</p>
+      <p>Random number from 1-10: {{updateLuckyNumber()}}</p>
+      <p>
+        Employe information: {{employe.name}} is {{employe.age}} years old. His
+        salary is ${{employe.salary}}
+      </p>
+    </div>
+    <script>
+      const { createApp, ref, reactive } = Vue;
+      createApp({
+        setup() {
+          const message = "Hello vue";
+          const newMessage = "This an html rendering from a function.";
+          const luckyNumber = ref(7); //ref() -  for simple data types
+          const luckyNumbers = [2, 5, 7];
+          //reactive() -  to work with objects
+          //ref() -  employe.value.[key]
+          const employe = reactive({
+            name: "John",
+            age: 30,
+            salary: 5000,
+          });
+
+          const siteUrl = "https://www.edeptec.com";
+
+          function titleToUpperCase() {
+            return message.toLocaleUpperCase();
+          }
+
+          function renderHtml() {
+            return `<h2><u>${newMessage}</u></h2>`;
+          }
+
+          function getRandomNumber() {
+            luckyNumber.value = Math.floor(Math.random() * 10) + 1;
+            return Math.floor(Math.random() * 10) + 1;
+          }
+
+          function updateLuckyNumber() {
+            setTimeout(() => {
+              luckyNumber.value = 77;
+              employe.salary = 3000;
+            }, 2000);
+          }
+
+          return {
+            message,
+            luckyNumber,
+            luckyNumbers,
+            employe,
+            siteUrl,
+            getRandomNumber,
+            titleToUpperCase,
+            renderHtml,
+            updateLuckyNumber,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
